@@ -27,3 +27,27 @@ import dagster as dg
 from dagster_duckdb import DuckDBResource
 
 
+@dg.asset
+def tennis_players_dataset(duckdb: DuckDBResource) -> None:
+    base = "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master"
+    csv_file = f"{base}/atp_players.csv"
+
+    with duckdb.get_connection() as conn:
+        conn.execute("""
+            CREATE OR REPLACE TABLE players AS
+            SELECT * REPLACE(
+                CASE
+                    WHEN dob IS NULL THEN NULL
+                    WHEN SUBSTRING(CAST(dob AS VARCHAR), 5, 4) = '0000' THEN
+                        CAST(strptime(
+                            CONCAT(SUBSTRING(CAST(dob AS VARCHAR), 1, 4), '0101'),
+                            '%Y%m%d'
+                        ) AS date)
+                    ELSE
+                        CAST(strptime(dob, '%Y%m%d') AS date)
+                END AS dob
+            )
+            FROM read_csv_auto(?, types={
+                'dob': 'VARCHAR'
+            });
+        """, [csv_file])
