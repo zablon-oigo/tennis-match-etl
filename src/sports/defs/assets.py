@@ -51,3 +51,15 @@ def tennis_players_dataset(duckdb: DuckDBResource) -> None:
                 'dob': 'VARCHAR'
             });
         """, [csv_file])
+
+
+@dg.asset(deps=[tennis_players_dataset])
+def tennis_players_name_dataset(duckdb: DuckDBResource) -> None:
+    concatenate_query = """
+        ALTER TABLE players ADD COLUMN IF NOT EXISTS name_full VARCHAR;
+        UPDATE players
+        SET name_full = name_first || ' ' || name_last;
+    """
+
+    with duckdb.get_connection() as conn:
+        conn.execute(concatenate_query)
