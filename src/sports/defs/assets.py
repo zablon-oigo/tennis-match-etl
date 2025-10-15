@@ -63,3 +63,19 @@ def tennis_players_name_dataset(duckdb: DuckDBResource) -> None:
 
     with duckdb.get_connection() as conn:
         conn.execute(concatenate_query)
+
+
+@dg.asset
+def tennis_levels_dataset(duckdb: DuckDBResource) -> None:
+    levels_df = pd.DataFrame({
+        "short_name": ["G", "M", "A", "C", "S", "F"],
+        "name": [
+            "Grand Slam",
+            "Tour Finals",
+            "Masters 1000s",
+            "Other Tour Level",
+            "Challengers",
+            "ITFs"
+        ],
+        "rank": [5, 4, 3, 2, 1, 0]
+    })
