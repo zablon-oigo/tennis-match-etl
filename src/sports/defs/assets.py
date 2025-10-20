@@ -79,3 +79,6 @@ def tennis_levels_dataset(duckdb: DuckDBResource) -> None:
         ],
         "rank": [5, 4, 3, 2, 1, 0]
     })
+    with duckdb.get_connection() as conn:
+    conn.execute("CREATE OR REPLACE TABLE levels AS SELECT * FROM levels_df")
+
