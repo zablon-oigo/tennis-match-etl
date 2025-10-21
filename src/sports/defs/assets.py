@@ -82,3 +82,15 @@ def tennis_levels_dataset(duckdb: DuckDBResource) -> None:
     with duckdb.get_connection() as conn:
     conn.execute("CREATE OR REPLACE TABLE levels AS SELECT * FROM levels_df")
 
+
+
+@dg.asset
+def tennis_rounds_dataset(duckdb: DuckDBResource) -> None:
+    """
+    Creates a static lookup table for tournament rounds.
+    """
+    rounds_df = pd.DataFrame({
+        "name": [
+            "F", "SF", "QF", "R16", "R32", "R64", "R128",
+            "RR", "BR", "ER", "PR", "R1", "R2", "R3"
+        ],
