@@ -94,3 +94,11 @@ def tennis_rounds_dataset(duckdb: DuckDBResource) -> None:
             "F", "SF", "QF", "R16", "R32", "R64", "R128",
             "RR", "BR", "ER", "PR", "R1", "R2", "R3"
         ],
+        "description": [
+            "Final", "Semifinals", "Quarterfinals", "Round of 16",
+            "Round of 32", "Round of 64", "Round of 128",
+            "Round Robin", "Bronze Round", "Exhibition Round",
+            "Preliminary Round", "Round 1", "Round 2", "Round 3"
+        ],
+        "order": [7, 6, 5, 4, 3, 2, 1, 5, 0, 0, 0, 1, 2, 3]
+    })
