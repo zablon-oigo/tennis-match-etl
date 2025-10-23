@@ -102,3 +102,5 @@ def tennis_rounds_dataset(duckdb: DuckDBResource) -> None:
         ],
         "order": [7, 6, 5, 4, 3, 2, 1, 5, 0, 0, 0, 1, 2, 3]
     })
+    with duckdb.get_connection() as conn:
+    conn.execute("CREATE OR REPLACE TABLE rounds AS SELECT * FROM rounds_df")
