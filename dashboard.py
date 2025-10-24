@@ -8,19 +8,15 @@ st.set_page_config(layout="wide")
 
 atp_duck = duckdb.connect('tennis.duckdb', read_only=True)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def search_players(search_term):
+    query = '''
+    SELECT DISTINCT winner_name AS player
+    FROM matches
+    WHERE player ilike '%' || $1 || '%'
+    UNION
+    SELECT DISTINCT loser_name AS player
+    FROM matches
+    WHERE player ilike '%' || $1 || '%'
+    '''
+    values = atp_duck.execute(query, parameters=[search_term]).fetchall()
+    return [value[0] for value in values]
