@@ -20,3 +20,9 @@ def search_players(search_term):
     '''
     values = atp_duck.execute(query, parameters=[search_term]).fetchall()
     return [value[0] for value in values]
+
+def add_empty_column_if_needed(df, player1, player1_wins, player2, player2_wins):
+    if player1_wins == 0:
+        df[player1] = 0
+    if player2_wins == 0:
+        df[player2] = 0
