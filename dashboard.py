@@ -26,3 +26,5 @@ def add_empty_column_if_needed(df, player1, player1_wins, player2, player2_wins)
         df[player1] = 0
     if player2_wins == 0:
         df[player2] = 0
+
+st.title("Tennis Players Head to Head")
