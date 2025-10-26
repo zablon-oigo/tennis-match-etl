@@ -28,3 +28,10 @@ def add_empty_column_if_needed(df, player1, player1_wins, player2, player2_wins)
         df[player2] = 0
 
 st.title("Tennis Players Head to Head")
+left, right = st.columns(2)
+with left:
+    player1 = st_searchbox(search_players, label="Player 1", key="player1_search", default="Roger Federer", placeholder="Roger Federer")
+with right:
+    player2 = st_searchbox(search_players, label="Player 2", key="player2_search", default="Rafael Nadal", placeholder="Rafael Nadal")
+
+st.markdown("***")
