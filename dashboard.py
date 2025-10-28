@@ -35,3 +35,17 @@ with right:
     player2 = st_searchbox(search_players, label="Player 2", key="player2_search", default="Rafael Nadal", placeholder="Rafael Nadal")
 
 st.markdown("***")
+if player1 and player2:
+    matches_for_players = atp_duck.execute("""
+    SELECT 
+        tourney_date,tourney_name, surface, round, 
+        rounds.order AS roundOrder, 
+        levels.name AS level, levels.rank AS levelRank, 
+        winner_name, score
+    FROM matches
+    JOIN levels ON levels.short_name = matches.tourney_level
+    JOIN rounds ON rounds.name = matches.round
+    WHERE (loser_name  = $1 AND winner_name = $2) OR
+          (loser_name  = $2 AND winner_name = $1)
+    ORDER BY tourney_date DESC
+    """, [player1, player2]).fetchdf()
