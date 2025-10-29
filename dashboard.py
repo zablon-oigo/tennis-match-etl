@@ -49,3 +49,14 @@ if player1 and player2:
           (loser_name  = $2 AND winner_name = $1)
     ORDER BY tourney_date DESC
     """, [player1, player2]).fetchdf()
+    left, middle, right = st.columns(3)
+    with left:
+        st.markdown(f"<h2 style='text-align: left; '>{player1}</h1>", unsafe_allow_html=True)
+    with right:
+        st.markdown(f"<h2 style='text-align: right; '>{player2}</h1>", unsafe_allow_html=True)
+
+    player1_wins = matches_for_players[matches_for_players.winner_name == player1].shape[0]
+    player2_wins = matches_for_players[matches_for_players.winner_name == player2].shape[0]
+
+    with middle:
+        st.markdown(f"<h2 style='text-align: center; '>{player1_wins} vs {player2_wins}</h1>", unsafe_allow_html=True)
