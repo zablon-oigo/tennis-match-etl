@@ -60,3 +60,16 @@ if player1 and player2:
 
     with middle:
         st.markdown(f"<h2 style='text-align: center; '>{player1_wins} vs {player2_wins}</h1>", unsafe_allow_html=True)
+
+    if len(matches_for_players) == 0:
+        pass
+    else:        
+        st.markdown(f'### Matches')
+        st.dataframe(matches_for_players.drop(["roundOrder", "level", "levelRank"], axis=1))
+
+        st.markdown(f'### Match Timeline')
+
+        sorted_matches_for_players = atp_duck.sql("""
+        FROM matches_for_players
+        ORDER BY strftime(tourney_date, '%m-%d')
+        """).fetchdf()
