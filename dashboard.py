@@ -73,3 +73,13 @@ if player1 and player2:
         FROM matches_for_players
         ORDER BY strftime(tourney_date, '%m-%d')
         """).fetchdf()
+
+        fig = px.scatter(sorted_matches_for_players, 
+            x="tourney_date", 
+            y="tourney_name", 
+            color="winner_name",
+            size="roundOrder",
+            color_discrete_sequence=["red", "green"],
+            category_orders={"tourney_name": sorted_matches_for_players['tourney_name'].drop_duplicates().tolist()},
+            hover_data=["score", "winner_name", "round"]
+        )
