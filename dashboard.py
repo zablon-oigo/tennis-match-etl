@@ -83,3 +83,18 @@ if player1 and player2:
             category_orders={"tourney_name": sorted_matches_for_players['tourney_name'].drop_duplicates().tolist()},
             hover_data=["score", "winner_name", "round"]
         )
+
+        min_year = sorted_matches_for_players['tourney_date'].dt.year.min()
+        max_year = sorted_matches_for_players['tourney_date'].dt.year.max()
+        unique_years = list(range(min_year, max_year+2))
+
+        # Add vertical lines for each unique year
+        for year in unique_years:
+            fig.add_shape(
+                type="line",
+                x0=f"{year}-01-01", x1=f"{year}-01-01",
+                y0=0, y1=1,
+                yref="paper",
+                layer="below",
+                line=dict(color="#efefef", width=2)
+            )
