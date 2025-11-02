@@ -110,4 +110,14 @@ if player1 and player2:
 
         st.markdown(f'### Match Breakdown')
         col1, col2, col3, col4 = st.tabs(["By Tournament", "By Surface", "By Tournament Level", "By Round"])
-     
+        
+        with col1:
+            st.markdown(f'#### By Tournament')
+            by_tourn = atp_duck.sql("""
+            PIVOT matches_for_players
+            ON winner_name
+            USING count(*)            
+            GROUP BY tourney_name
+            """).fetchdf()
+            add_empty_column_if_needed(by_tourn, player1, player1_wins, player2, player2_wins)
+            st.dataframe(by_tourn)
