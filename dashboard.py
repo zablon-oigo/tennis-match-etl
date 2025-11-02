@@ -98,3 +98,16 @@ if player1 and player2:
                 layer="below",
                 line=dict(color="#efefef", width=2)
             )
+        number_of_tournaments = atp_duck.sql("""
+        from matches_for_players 
+        select count(distinct tourney_name) AS count
+        """).fetchall()[0][0]
+
+        fig.update_layout(
+            height=(number_of_tournaments * 40) + 200,
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.markdown(f'### Match Breakdown')
+        col1, col2, col3, col4 = st.tabs(["By Tournament", "By Surface", "By Tournament Level", "By Round"])
+     
