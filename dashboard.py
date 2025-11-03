@@ -121,3 +121,13 @@ if player1 and player2:
             """).fetchdf()
             add_empty_column_if_needed(by_tourn, player1, player1_wins, player2, player2_wins)
             st.dataframe(by_tourn)
+        with col2:
+            st.markdown(f'#### By Surface')
+                by_surface = atp_duck.sql("""
+                PIVOT matches_for_players
+                ON winner_name
+                USING count(*)
+                GROUP BY surface
+                """).fetchdf()
+                add_empty_column_if_needed(by_surface, player1, player1_wins, player2, player2_wins)
+                st.dataframe(by_surface)
