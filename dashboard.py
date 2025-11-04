@@ -123,11 +123,24 @@ if player1 and player2:
             st.dataframe(by_tourn)
         with col2:
             st.markdown(f'#### By Surface')
-                by_surface = atp_duck.sql("""
+            by_surface = atp_duck.sql("""
                 PIVOT matches_for_players
                 ON winner_name
                 USING count(*)
                 GROUP BY surface
                 """).fetchdf()
-                add_empty_column_if_needed(by_surface, player1, player1_wins, player2, player2_wins)
-                st.dataframe(by_surface)
+            add_empty_column_if_needed(by_surface, player1, player1_wins, player2, player2_wins)
+            st.dataframe(by_surface)
+        with col3:
+            st.markdown(f'#### By Tournament Level')
+            by_level = atp_duck.sql("""
+            WITH byLevel AS (
+                PIVOT matches_for_players
+                ON winner_name
+                USING count(*)
+                GROUP BY level, levelRank
+                ORDER BY levelRank DESC
+            )
+            SELECT * EXCLUDE(levelRank)
+            FROM byLevel            
+            """).fetchdf()
