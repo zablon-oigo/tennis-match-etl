@@ -144,3 +144,5 @@ if player1 and player2:
             SELECT * EXCLUDE(levelRank)
             FROM byLevel            
             """).fetchdf()
+            add_empty_column_if_needed(by_level, player1, player1_wins, player2, player2_wins)
+            st.dataframe(by_level)
