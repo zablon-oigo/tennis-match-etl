@@ -146,3 +146,16 @@ if player1 and player2:
             """).fetchdf()
             add_empty_column_if_needed(by_level, player1, player1_wins, player2, player2_wins)
             st.dataframe(by_level)
+        with col4:
+            st.markdown(f'#### By Round')
+            by_round = atp_duck.sql("""
+            WITH byRound AS (
+                PIVOT matches_for_players
+                ON winner_name
+                USING count(*)
+                GROUP BY round, roundOrder
+                ORDER BY roundOrder DESC
+            ) 
+            SELECT * EXCLUDE(roundOrder)
+            FROM byRound
+            """).fetchdf()
