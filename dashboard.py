@@ -159,3 +159,5 @@ if player1 and player2:
             SELECT * EXCLUDE(roundOrder)
             FROM byRound
             """).fetchdf()
+            add_empty_column_if_needed(by_round, player1, player1_wins, player2, player2_wins)
+            st.dataframe(by_round)
